@@ -1,0 +1,146 @@
+﻿
+<style>
+    div{
+        height:200px;
+        width:200px;
+        border: 1px solid black;
+        
+    }
+</style>
+<div>
+    <img src="" class="container-fluid" />
+    <h4>Meal Name</h4>
+    <span>Price</span>
+
+
+</div>
+
+
+
+@* [AcceptVerbs("GET", "POST")]
+public IActionResult VerifyEmail(string email)
+{
+    if (!_userService.VerifyEmail(email))
+    {
+        return Json($"Email {email} is already in use.");
+    }
+
+    return Json(true);
+}
+
+[Remote(action: "VerifyEmail", controller: "Users")]
+public string Email { get; set; } = null!;
+
+*@
+
+
+
+@*
+    
+custum validation
+
+public class ClassicMovieAttribute : ValidationAttribute
+{
+    public ClassicMovieAttribute(int year)
+        => Year = year;
+
+    public int Year { get; }
+
+    public string GetErrorMessage() =>
+        $"Classic movies must have a release year no later than {Year}.";
+
+    protected override ValidationResult? IsValid(
+        object? value, ValidationContext validationContext)
+    {
+        var movie = (Movie)validationContext.ObjectInstance;
+        var releaseYear = ((DateTime)value!).Year;
+
+        if (movie.Genre == Genre.Classic && releaseYear > Year)
+        {
+            return new ValidationResult(GetErrorMessage());
+        }
+
+        return ValidationResult.Success;
+    }
+} *@
+
+
+
+
+
+
+
+
+
+
+
+
+<!--                 
+
+<nav class="navbar bg-body-tertiary fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Offcanvas navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex mt-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+ -->
+    @*              var config = new MapperConfiguration(cfg => {
+                //cfg.CreateMap<Employee, EmployeeDto>
+    ();
+
+    cfg.CreateMap<Employee, EmployeeDto>
+        ().
+        ForMember(dest => dest.DtoName, opt => opt.MapFrom(scr => scr.Name));
+
+
+
+        });
+
+        var mapper = config.CreateMapper();
+
+        var empdto = mapper.Map<EmployeeDto>
+            (emp);
+            Console.WriteLine($" Name: {empdto.DtoName}  , Age: {empdto.Age}");
+
+
+            var dto = new
+            {
+            DtoName = emp.Name,
+            Age = emp.Age,
+            };
+            Console.WriteLine($" Name: {dto.DtoName}  , Age: {dto.Age}"); *@

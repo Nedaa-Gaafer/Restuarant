@@ -1,0 +1,7 @@
+﻿@using Restorant.DTOs.CartDtos
+@model IEnumerable<Cart>
+
+    @foreach(var meal in Model )
+{
+    <div> @meal.OrderTotalPrice</div>
+}
