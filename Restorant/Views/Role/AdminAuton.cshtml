@@ -1,0 +1,40 @@
+﻿<style>
+    .role{
+                border: 2px solid orange;
+        padding: 20px;
+        text-align: center;;
+        background-color:black;
+        border-radius: 10px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+    .a_role{
+        text-decoration: none;
+        color: white;
+    }
+</style>
+
+
+<section style="width:100%; background-color:black; padding:200px">
+  <article class="container" style="display:flex; justify-content:space-around">
+        <a class="a_role" asp-action="GetAllCategories" asp-controller="Category">
+            <div class="role">
+                <i class="bi bi-table" style="font-size:50px; color:ghostwhite"></i>
+              <h2>Categories</h2>
+          </div>
+      </a>
+        <a class="a_role" asp-action="GetAllMeals" asp-controller="Meal">
+            <div class="role">
+                <i class="bi bi-fork-knife" style="font-size:50px; color:orange"></i>
+                <h2>MenuItems</h2>
+            </div>
+      </a>
+        <a class="a_role" asp-action="" asp-controller="">
+            <div class="role">
+                <i class="bi bi-bar-chart-line-fill" style="font-size:50px; color:orang"></i>
+                <h2>Orders</h2>
+            </div>
+      </a>
+
+  </article>
+</section>

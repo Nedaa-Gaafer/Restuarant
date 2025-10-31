@@ -48,9 +48,10 @@ namespace Restorant.Infrastructure
            return await _context.SaveChangesAsync();
         }
 
-        public  void Update(T entity)
+        public async Task<T> Update(T entity)
         {
            _context.Update(entity);
+            return await Task.FromResult(entity);
         }
     }
 }

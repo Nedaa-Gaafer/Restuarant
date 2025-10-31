@@ -1,9 +1,9 @@
 ﻿@using Restorant.DTOs.MenuItemDtos
-@model List<GetAllMenuItemDtos>
+@model List<GetAllOrdersDto>
 <style>
     body {
         margin-left: 0;
-        background-color: whitesmoke;
+        background-color: black;
     }
 
     h1{
@@ -29,8 +29,8 @@
 
 <section class="container" style="margin-top:150px">
     <article style="text-align:center">
-        <h1>All Meals</h1>
-        <table class="table table-bordered " >
+        <h1 style="color:#df5f04">All Meals</h1>
+        <table class="table table-bordered " style="border:2px solid #df5f04; background-color:black; color:whitesmoke">
             <thead>
                 <tr>
                     <th>
@@ -46,9 +46,9 @@
                     <th>
                         Price
                     </th>
-                    <th>
+                    @* <th>
                         CategoryName
-                    </th>
+                    </th> *@
                     <th style="width:200px">
                         Actions
                     </th>
@@ -72,9 +72,9 @@
                         <td>
                             @item.Price
                         </td>
-                        <td>
+                        @* <td>
                             @item.CategoryName
-                        </td>
+                        </td> *@
                         <td>
                             <a href="/Meal/Details/@item.Id"><i class="bi bi-eye" style="color:blue"></i></a>
                             <a href="/Meal/Edit/@item.Id"><i class="bi bi-pencil-square" style="color:darkblue"></i></a>
@@ -87,7 +87,9 @@
         </table>
 
         <p>
-            <a href="/Meal/Create" class="btn btn-primary">Add Meal</a>
+            <a asp-action="Create" class="btn " style="background-color:#df5f04; margin:20px">Add Meal</a>
+            <a asp-action="AdminAuton" asp-controller="Role" class="btn" style="background-color:#df5f04; margin:20px">Back</a>
+
         </p>
     </article>
 

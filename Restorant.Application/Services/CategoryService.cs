@@ -53,7 +53,7 @@ namespace Restorant.Application.Services
         public async  Task<int> UpdateCategoriesAsync(GetAllCategoriesDto category)
         {
             var updatedCat = category.Adapt<Category>();
-            _categoryRepository.Update(updatedCat);
+            await _categoryRepository.Update(updatedCat);
             var countRow = await _categoryRepository.SaveChangesAsync();
             return countRow;
 

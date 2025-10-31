@@ -13,16 +13,17 @@ namespace Restorant.Application.IServices
     public interface ICartService
     {
         public Task<IEnumerable<Cart>> GetAllMenuItemsAsync();
-        public Task<AddOrderItem> AddOrderItemAsync(AddOrderItem order);
+        //public Task<AddOrderItem> AddOrderItemAsync(AddOrderItem order);
         public Task<Cart?> GetCartByUserId(string userId);
         public Task CreateOrderAsync(AddOrderItem order);
         public Task<int> UpdateAsync(AllOrderDto order);
-        public Task<int> DeleteAsync(int orderId);
-        public Task<AllOrderDto> GetByIdAsync(int orderId);
-        public double CalculatTotalPrice(Cart cart);
+        public Task<int> DeleteAsync(Cart cart,Order order );
+        public Task<Cart> GetByIdAsync(int Id);
+        public Task<double> CalculatTotalPrice();
         public Task<double> TotalPrice();
         public Task<double> Discunt();
         public Task DecreasQantity(int id);
+        public Task IncreasQantity(int id);
 
         public Task<IEnumerable<AddOrderItem>> GetAllCart();
         public Task<int> SaveChangesAsync();

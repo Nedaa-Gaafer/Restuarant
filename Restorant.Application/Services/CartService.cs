@@ -18,31 +18,28 @@ namespace Restorant.Application.Services
         private readonly ICartIMenuitemRepository _carItemtRepository;
         private readonly IUserCartRepository _carUser;
         private readonly IGenericRepository<MenuItem> _menuItemRepository;
+        private readonly IGenericRepository<Order> _ordrRepository;
+        private readonly IMenuitemOrderRepository _ordweItemtRepository;
 
-        public CartService(IGenericRepository<Cart> cartRepository, ICartIMenuitemRepository carItemtRepository, IUserCartRepository carUser, IGenericRepository<MenuItem> menuItemRepository)
+        public CartService(IGenericRepository<Cart> cartRepository, ICartIMenuitemRepository carItemtRepository, IUserCartRepository carUser, IGenericRepository<MenuItem> menuItemRepository, IGenericRepository<Order> ordrRepository, IMenuitemOrderRepository ordweItemtRepository)
         {
             _cartRepository = cartRepository;
             _carItemtRepository = carItemtRepository;
             _carUser = carUser;
             _menuItemRepository = menuItemRepository;
+            _ordrRepository = ordrRepository;
+            _ordweItemtRepository = ordweItemtRepository;
         }
 
-        public async Task<AddOrderItem> AddOrderItemAsync(AddOrderItem order)
-        {
-            return order  ;
-        }
 
-        public double CalculatTotalPrice(Cart carts)
-        {
-            if (carts.CartMenuItems == null || carts.CartMenuItems.Any())
-                return 0;
-            foreach (var order in carts.CartMenuItems)
-            {
-                carts.OrderTotalPrice = order.MenuItem.Price * order.Quantity;
-            }
 
-            return carts.OrderTotalPrice;
-        }
+        //++++++++++++++++++++++++
+        //public async Task<AddOrderItem> AddOrderItemAsync(AddOrderItem order)
+        //{
+        //    return order  ;
+        //}
+
+
 
         public async Task CreateOrderAsync(AddOrderItem order)
         {
@@ -53,7 +50,7 @@ namespace Restorant.Application.Services
                 newOrder.Status = OrderStatus.Pending;
                 await _cartRepository.CreateAsync(newOrder);
                 await _cartRepository.SaveChangesAsync();
-                var totalPrice = CalculatTotalPrice(newOrder);
+                var totalPrice = await TotalPrice();
                 newOrder.OrderTotalPrice = totalPrice;
                 var carmui = new CartMenuItem();
                 carmui.CartId = newOrder.Id;
@@ -72,6 +69,9 @@ namespace Restorant.Application.Services
                 if (found != null)
                 {
                     found.Quantity += 1;
+                    cart.OrderTotalPrice = await TotalPrice();
+                    await _cartRepository.Update(cart);
+
                 }
                 else 
                 {
@@ -81,46 +81,76 @@ namespace Restorant.Application.Services
                         MenuItemId = order.Id,
                         Quantity = 1
                     });
-                    await _carItemtRepository.SaveChangesAsync();
+                    cart.OrderTotalPrice = await TotalPrice();
+                    await _cartRepository.Update(cart);
+
                 }
-                    
                 await _carItemtRepository.SaveChangesAsync();
-                var totalPrice = CalculatTotalPrice(cart);
-                cart.OrderTotalPrice = await TotalPrice(); 
-               await _cartRepository.SaveChangesAsync();
+
+                await _cartRepository.SaveChangesAsync();
+
+               
+
+                await _carItemtRepository.SaveChangesAsync();
+              //  var totalPrice = await TotalPrice();
 
             }
 
             
         }
-
-       
-
-        public Task<int> CreateOrderAsync()
-        {
-            throw new NotImplementedException();
-        }
-
+////===========================================================================
+//        public Task<int> CreateOrderAsync()
+//        {
+//            throw new NotImplementedException();
+//        }
+//===========================================================================
         public async Task DecreasQantity(int id)
         {
             var rel = await _carItemtRepository.GetAllCartItem();
-            var found =  rel.FirstOrDefault(c => c.MenuItemId == id);
-            if(found.Quantity > 0)
+            var found = rel.FirstOrDefault(c => c.MenuItemId == id);
+            if(found?.Quantity > 0)
             {
                 found.Quantity -= 1;
+                if (found?.Quantity == 0)
+                {
+                    await _carItemtRepository.Delet(found);
+                }
             }
-            else if (found.Quantity == 0)
-            {
-                _carItemtRepository.Delet(found);
-            }
+           
             await _carItemtRepository.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync(int orderId)
+        public async Task IncreasQantity(int id)
         {
-            throw new NotImplementedException();
+            var rel = await _carItemtRepository.GetAllCartItem();
+            var found = rel.FirstOrDefault(c => c.MenuItemId == id);
+            
+             found.Quantity += 1;
+
+            await _carItemtRepository.SaveChangesAsync();
         }
 
+        public async Task<int> DeleteAsync(Cart cart, Order order)
+        {
+            var listItem = await _carItemtRepository.GetById(cart.Id);
+            cart.OrderTotalPrice = await Discunt();
+            order.OrderTotalPrice = await Discunt();
+            await _cartRepository.Update(cart);
+            await _ordrRepository.Update(order);
+            await _ordrRepository.SaveChangesAsync();
+            foreach (var item in listItem)
+            {
+                var menuItem = item.Adapt<MenuItemOrder>();
+                menuItem.OrderId = order.Id;
+                await _ordweItemtRepository.CreateAsync(menuItem);
+                await _ordweItemtRepository.SaveChangesAsync();
+                await _carItemtRepository.Delet(item);
+            }
+            // return await _cartRepository.SaveChangesAsync();
+            //return await _carItemtRepository.DeletCart(order);
+            return 1;
+        }
+        
         public async Task<double> Discunt()
         {
             var price = await TotalPrice();
@@ -159,9 +189,9 @@ namespace Restorant.Application.Services
         
         }
 
-        public Task<AllOrderDto> GetByIdAsync(int orderId)
+        public async Task<Cart> GetByIdAsync(int Id)
         {
-            throw new NotImplementedException();
+            return await _cartRepository.GetById(Id);
         }
 
         public Task<Cart?> GetCartByUserId(string userId)
@@ -180,10 +210,26 @@ namespace Restorant.Application.Services
             var totalPrice = 0.0;
             foreach(var meal in item)
             {
-                totalPrice += meal.Price * meal.Quantity;
+                totalPrice += meal.Price;
             }
 
             return totalPrice;
+        }
+
+        public async Task<double> CalculatTotalPrice()
+        {
+            var OrderTotalPrice = 0.0;
+            var all = await _carItemtRepository.GetAllCartItem();
+            if (all != null)
+            {
+                foreach (var order in all)
+                {
+                    var item = await _menuItemRepository.GetById(order.MenuItemId);
+                    OrderTotalPrice += item.Price * order.Quantity;
+                }
+
+            }
+            return OrderTotalPrice;
         }
 
         public Task<int> UpdateAsync(AllOrderDto order)

@@ -2,6 +2,7 @@
 using Restorant.DTOs.CartDtos;
 using Restorant.DTOs.CategoryDtos;
 using Restorant.DTOs.MenuItemDtos;
+using Restorant.DTOs.OrderDtos;
 using Restorant.DTOs.UserDtos;
 using Restorant.Models;
 using System;
@@ -16,9 +17,9 @@ namespace Restorant.Application.Mappers
     {
         public static void Configure()
         {
-            TypeAdapterConfig<MenuItem, GetAllMenuItemDtos>.NewConfig().TwoWays();
-            TypeAdapterConfig<MenuItem, GetAllMenuItemDtos>.NewConfig().TwoWays();
-            TypeAdapterConfig<GetAllMenuItemDtos, MenuItemDto>.NewConfig().TwoWays();
+            TypeAdapterConfig<MenuItem, GetAllOrdersDto>.NewConfig().TwoWays();
+            TypeAdapterConfig<MenuItem, GetAllOrdersDto>.NewConfig().TwoWays();
+            TypeAdapterConfig<GetAllOrdersDto, MenuItemDto>.NewConfig().TwoWays();
             TypeAdapterConfig<MenuItem, UpdateMenuItemDto>.NewConfig().TwoWays();
             TypeAdapterConfig<AddOrderItem, UpdateMenuItemDto>.NewConfig().TwoWays();
             TypeAdapterConfig<MenuItem, AddOrderItem>.NewConfig().TwoWays();
@@ -36,7 +37,14 @@ namespace Restorant.Application.Mappers
             //TypeAdapterConfig<Cart, AllOrderDto>.NewConfig().TwoWays();
             //TypeAdapterConfig<GetAllCategoriesDto, AddOrderItem>.NewConfig().TwoWays();
 
+            TypeAdapterConfig<Cart, CartDto>.NewConfig().TwoWays();
+            
+            TypeAdapterConfig<GetUserOrdersDto, Order>.NewConfig().TwoWays();
+            TypeAdapterConfig<CartDto, Order >.NewConfig().TwoWays();
+            TypeAdapterConfig<CartMenuItem, MenuItemOrder>.NewConfig().
+                Map(dest => dest.OrderId, src => src.CartId).TwoWays();
 
+            
         }
 
     }

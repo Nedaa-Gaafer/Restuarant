@@ -1,4 +1,5 @@
-﻿using Restorant.Application.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Restorant.Application.Contracts;
 using Restorant.Data;
 using Restorant.DTOs.CartDtos;
 using Restorant.Models;
@@ -19,14 +20,24 @@ namespace Restorant.Infrastructure
             _context = context;
         }
 
-        public Task<MenuItemOrder> CreateAsync(MenuItemOrder order)
+        public async Task CreateAsync(MenuItemOrder order)
+        {
+            await _context.MenuItemOrders.AddAsync(order);
+        }
+
+        public Task DeleteAsync(MenuItemOrder order)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> SaveChangesAsync()
+        public async Task<IEnumerable<MenuItemOrder>> GetAllOrderItems(int orderId)
         {
-            throw new NotImplementedException();
+            var items = _context.MenuItemOrders.Where(i => i.OrderId == orderId);
+            return await items.ToListAsync();
+        }
+        public async Task<int> SaveChangesAsync()
+        {
+           return await _context.SaveChangesAsync();
         }
     }
 

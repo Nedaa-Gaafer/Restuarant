@@ -35,7 +35,7 @@ namespace Restorant.Controllers
                 if (res.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("CartItems", "Cart");
                 }
                 foreach(var item in res.Errors)
                 {
@@ -66,7 +66,7 @@ namespace Restorant.Controllers
                     if (found)
                     {
                         await _signInManager.SignInAsync(foundUser, userDto.RememberMe);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("CartItems", "Cart");
                     }
 
                 }
@@ -78,11 +78,89 @@ namespace Restorant.Controllers
         }
 
 
-        //public async Task<IActionResult> SignOut()
-        //{
-        //   await _signInManager.SignOutAsync();
-        //    return View("Login"); // 
-        //}
+        public async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+            return View("CartItems", "Cart"); // 
+        }
+
+        //================================Role=================================
+
+
+
+
+        [HttpGet]
+        public IActionResult RoleRegister()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RoleRegister(UserRegister createUser)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = createUser.Adapt<AppUser>();
+                IdentityResult res = await _userManager.CreateAsync(user, createUser.Password);
+                if (res.Succeeded)
+                {
+                    //assign to role
+                    IdentityResult resRole = await _userManager.AddToRoleAsync(user, "Admin");
+                    if (!resRole.Succeeded)
+                    {
+                        foreach (var item in resRole.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
+                        return View("RoleRegister", createUser);
+                    }
+                    //cookie
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("CartItems", "Cart");
+                }
+                foreach (var item in res.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+            }
+
+
+            return View("RoleRegister", createUser);
+
+        }
+        [HttpGet]
+        public IActionResult RoleLogin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleLogin(LoginUserDto userDto)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var foundUser = await _userManager.FindByNameAsync(userDto.UserName);
+                if (foundUser != null)
+                {
+                    var found = await _userManager.CheckPasswordAsync(foundUser, userDto.Password);
+                    if (found)
+                    {
+                        await _signInManager.SignInAsync(foundUser, userDto.RememberMe);
+                        return RedirectToAction("AdminAuton", "Role");
+                    }
+
+                }
+                ModelState.AddModelError("", "Invalid username or password");
+
+            }
+
+            return View("Login", userDto);
+        }
+
+
+       
 
 
     }

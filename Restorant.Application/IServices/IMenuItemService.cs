@@ -9,7 +9,7 @@ namespace Restorant.Application.IServices
 {
     public interface IMenuItemService
     {
-        public Task<IEnumerable<GetAllMenuItemDtos>> GetAllMenuItemsAsync();
+        public Task<IEnumerable<GetAllOrdersDto>> GetAllMenuItemsAsync();
 
         public Task<IEnumerable<MenuItemDto>> MenuItemsAsync();
         public Task<int> CreateAsync(CreateMenuItemDto menuItemy);

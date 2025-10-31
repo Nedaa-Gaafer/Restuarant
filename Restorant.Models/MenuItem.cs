@@ -26,8 +26,8 @@ namespace Restorant.Models
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public List<MenuItemOrder> MenuItemOrders { get; set; }
-        public List<CartMenuItem> CartMenuItems { get; set; }
+        public List<MenuItemOrder> MenuItemOrders { get; set; } = new();
+        public List<CartMenuItem> CartMenuItems { get; set; } = new();
     }
 
    public enum PizzaSize

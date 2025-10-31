@@ -38,12 +38,12 @@ namespace Restorant.Application.Services
 
         }
 
-        public async Task<IEnumerable<GetAllMenuItemDtos>> GetAllMenuItemsAsync()
+        public async Task<IEnumerable<GetAllOrdersDto>> GetAllMenuItemsAsync()
         {
             var allMenuItems = (await _menuItemRepository.GetAllAsync());
 
 
-            List<GetAllMenuItemDtos> res = allMenuItems.Adapt<List<GetAllMenuItemDtos>>();
+            List<GetAllOrdersDto> res = allMenuItems.Adapt<List<GetAllOrdersDto>>();
            
             return res;
 
@@ -66,7 +66,7 @@ namespace Restorant.Application.Services
         public async Task<int> UpdateAsync(UpdateMenuItemDto menuItem)
         {
             var updatedMenueItem = menuItem.Adapt<MenuItem>();
-            _menuItemRepository.Update(updatedMenueItem);
+            await _menuItemRepository.Update(updatedMenueItem);
             var count = await _menuItemRepository.SaveChangesAsync();
             return count;
 

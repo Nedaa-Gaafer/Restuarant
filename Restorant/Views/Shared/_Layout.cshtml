@@ -11,30 +11,31 @@
 </head>
 <body >
     <header >
-        <nav class="navbar bg-body-tertiary fixed-top" style="background-color:#df5f04">
+        <nav class="navbar bg-body-tertiary fixed-top" style="background-color:black;border-bottom:1px solid #df5f04 ">
             <div class="container-fluid head_cont">
-                <h4><a class="navbar-brand" href="#" style="color:#e9ded8">My Restuarant</a></h4>
+                <h4><a class="navbar-brand" href="#" style="color:#df5f04">My Restuarant</a></h4>
                 <div id="header">
                     <ul class="header_ul">
-                        <li class="li_marg"><h5><a asp-action="Index" asp-controller="Home" class="link navbar-brand" style="color:#e9ded8">Home</a></h5> </li>
-                        <li class="li_marg"><h5><a asp-action="MenuItems" asp-controller="Meal" class="link navbar-brand" style="color:#e9ded8">Menu</a></h5> </li>
-                        <li class="li_marg"><h5> <a asp-action="Index" asp-controller="Home" class="navbar-brand" style="color:#e9ded8">Category</a></h5> </li>
-                        <li class="li_marg"> <h5><a class="navbar-brand" style="color:#e9ded8">About Us</a></h5> </li>
+                        <li class="li_marg"><h5><a asp-action="Index" asp-controller="Home" class="link navbar-brand" style="color:#df5f04">Home</a></h5> </li>
+                        <li class="li_marg"><h5><a asp-action="MenuItems" asp-controller="Meal" class="link navbar-brand" style="color:#df5f04">Menu</a></h5> </li>
+                        <li class="li_marg"><h5> <a asp-action="Index" asp-controller="Home" class="navbar-brand" style="color:#df5f04">Category</a></h5> </li>
+                        <li class="li_marg"> <h5><a class="navbar-brand" style="color:#df5f04">About Us</a></h5> </li>
+                        <li class="li_marg"> <h5><a asp-action="GetUserOrders" asp-controller="Order" class="navbar-brand" style="color:#df5f04">Your Orders</a></h5> </li>
                        
                         
                     </ul>
                 </div>
 
-                <div>
+                @* <div>
                     <span class="navbar-toggler-icon" style="height:"><a asp-action="Register" asp-controller="Account" class="" style="color:#e9ded8;">SignIn</a></span>
 
-                </div>
+                </div> *@
                 <div>
-                    <span class="navbar-toggler-icon" style="height:50px"><a asp-action="CartItems" asp-controller="Cart"><i class="bi bi-cart2" style="font-size:30px; color:#e9ded8"></i></a></span>
+                    <span class="navbar-toggler-icon" style="height:50px"><a asp-action="CartItems" asp-controller="Cart"><i class="bi bi-cart2" style="font-size:30px; color:#df5f04"></i></a></span>
 
                 </div>
-                <button style="background-color:white ;border-color:#e9ded8" id="toggler" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                    <span  class="navbar-toggler-icon"><i class="bi bi-list" style="color:#df5f04"></i></span>
+                <button style="background-color:#df5f04 ;border-color:#e9ded8" id="toggler" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span  class="navbar-toggler-icon"><i class="bi bi-list" style="color:black"></i></span>
                 </button>
                
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="background-color:#df5f04">
@@ -81,11 +82,11 @@
                             </li>
                             <li class="nav-item">
                                 <h5 class="cont-icon">
-                                    <a asp-action="GetAllMeals" asp-controller="Meal" class="btn btn-close-white">Add MenuItem</a>
+                                    <a asp-action="RoleLogin" asp-controller="Account" class="btn btn-close-white">Admin</a>
 
                                 </h5>
                                 <h5 class="cont-icon">
-                                    <a asp-action="GetAllCategories" asp-controller="Category" class="btn btn-close-white">Add Category</a>
+                                    <a asp-action="SignOut" asp-controller="Account" class="btn btn-close-white">SignOut</a>
 
                                 </h5>
                             </li>
@@ -123,7 +124,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted" style="background-color:#393939; position:relative">
+    <footer class="border-top footer text-muted" style="background-color:black; position:relative">
         <article class="container" style=""; font-size:20px;padding-top:20px">
             <h3>Contact Us</h3>
             <div><i class="bi bi-facebook" style="color:darkblue;margin-right:10px; font-size:25px"></i>Facebooc</div>

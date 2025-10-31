@@ -25,14 +25,26 @@ namespace Restorant.Infrastructure
            await _context.CartMenuItems.AddAsync(order);
         }
 
-        public void Delet(CartMenuItem item)
+        public async Task Delet(CartMenuItem item)
         {
            _context.CartMenuItems.Remove(item);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> DeletCart(Cart cart)
+        {
+             _context.Carts.Remove(cart);
+           return await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CartMenuItem>> GetAllCartItem()
         {
-           return _context.CartMenuItems.Include(m=> m.Cart);
+            return await _context.CartMenuItems.ToListAsync();
+        }
+
+        public async Task<IEnumerable<CartMenuItem>> GetById(int id)
+        {
+            return await (_context.CartMenuItems.Where(C => C.CartId == id)).ToListAsync();
         }
 
         public async Task<int> SaveChangesAsync()

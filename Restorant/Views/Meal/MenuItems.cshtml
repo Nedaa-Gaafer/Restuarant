@@ -1,6 +1,11 @@
 ﻿@using Restorant.DTOs.MenuItemDtos
 @model List<MenuItemDto>
 <style>
+    #all_card
+    {
+        background-color:black
+
+    }
     .cat_img {
         padding-left: 0px;
         padding-right:0px;
@@ -11,30 +16,41 @@
         padding-left: 0px;
         padding-right: 0px;
         color:black;
-        padding-bottom:20px;
-
+        padding-bottom:30px;
+        background-color: #cf5b09;
+        border: 1px solid #df5f04;
+        
     }
 
     .btn-dark
     {
-        background-color: #df5f04;
+        background-color: black;
         border-color:none;
         margin-top:10px;
     }
     </style>
-<section id="all_card" class="container text-center " style="margin-top:150px;margin-bottom:350px">
-    <div class=" row row-cols-2 row-cols-sm-3 row-cols-md-4 g-2 gx-5 p-2  justify-content-between" id="cards_row">
+<section id="all_card" class="" style="margin-top:50px;padding:50px; width:100%">
+  <div class="container-fluid ">
+     <div class=" row row-cols-4 row-cols-sm-3 row-cols-md-4 gx-2 justify-content-between" id="cards_row">
         @foreach (var item in Model)
         {
-            <div class="card col">
+            <div class="card col" style="margin:5px">
                 <img src="~/images/@item.ImageUrl" class="img-fluid cat_img" width="100%" />
                 <div style="margin-left:10px; text-align:left">
-                    <h4 style="margin-top: 20px">@item.Name</h4>
-                    <h5 style="margin-top: 20px">Price:@item.Price EGP</h5>
-                    <div style="text-align:center"><a asp-action="Cart" asp-controller="Cart" asp-route-id="@item.Id" class="btn btn-dark">Add To Cart</a></div>
+                    <h4 style="margin-top: 5px">@item.Name</h4>
+                    <p style="height:70px">@item.Description</p>
+                        <div class="" style="height:40px;display:flex;padding:0px 20px 0 20px; justify-content:space-between">
+                             <p style="font-size:30px">@item.Price EGP</p>
+                            <span style="padding:2px 15px 2px 15px;margin-top:5px;height:40px; ;border-radius:5px; border:1px solid black; background-color:black">
+                                <a asp-action="Cart" asp-controller="Cart" asp-route-id="@item.Id" ><i class="bi bi-cart2" style="font-size:30px;margin-bottom:5px; color:#df5f04"></i></a>
+                              </span>
+                        </div>
                 </div>
             </div>
 
         }
+            
+     </div>
+  </div>
 
 </section>

@@ -1,0 +1,68 @@
+﻿
+@using Restorant.DTOs.OrderDtos
+@model IEnumerable<GetUserOrdersDto>
+<style>
+    .item {
+        height: 100px;
+        display: flex;
+        margin-top: 10px;
+        justify-content: flex-start;
+        border: 1px solid #df5f04;
+        background-color: #df5f04;
+        width: 80%;
+    }
+
+
+    p {
+        margin-left: 5%
+    }
+</style>
+@{
+    var count = 0;
+}
+<section style=" width:100%;background-color:black;text-align:center ;margin-top:50px; padding:100px 0 100px 0 ">
+    <div class="container" style="">
+      @foreach (var meal in Model)
+      {
+            <div class="item" style="padding-top:20px;display:flex; justify-content:space-evenly">
+                <h5>@(count+1):  </h5>
+                <h5>
+                    @meal.OrderDate
+                </h5>
+                <h5>Total Price: @meal.OrderTotalPrice EGP</h5>
+                <h5>
+                    <a class="orderItems btn" style="margin-top:10px; background-color:black; padding:10px 20px; border-radius:5px; cursor:pointer;color:#df5f04;">
+                        Show your Order's Items
+                    </a>
+                </h5>
+            </div>
+            foreach(var item in meal.OrderItems) 
+            {
+                <div class="showItems" style="display:none;margin:10px ;justify-content:space-evenly; background-color:black;color:#df5f04; border: 1px solid #df5f04; width:40% ">
+                    <h5>@item.Name</h5>
+                    <h5> Price: @item.Price EGP</h5>
+                    <h5> Quantity: @item.Quantity</h5>
+                   <hr />
+                </div>
+            }
+
+      }
+    </div>
+    <script>
+        const buttons = document.querySelectorAll('.orderItems');
+        const showItems = document.getElementsByClassName("showItems");
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                for (let i = 0; i < showItems.length; i++) {
+                    if (showItems[i].style.display === "none") {
+                        showItems[i].style.display = "flex";
+                    } else {
+                        showItems[i].style.display = "none";
+                    }
+                }
+            });
+                });
+    </script>
+</section>
+
+

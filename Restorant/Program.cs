@@ -44,10 +44,11 @@ namespace Restorant
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICartIMenuitemRepository, CartIMenuitemRepository>();
             builder.Services.AddScoped<IUserCartRepository, UserCartRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IMenuitemOrderRepository, MenuitemOrderRepository>();
 
 
 
-            
 
 
 

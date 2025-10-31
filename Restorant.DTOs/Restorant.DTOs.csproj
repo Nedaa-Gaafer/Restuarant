@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Restorant.Models\Restorant.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="OrderDtos\" />
-  </ItemGroup>
-
 </Project>

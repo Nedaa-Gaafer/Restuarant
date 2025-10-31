@@ -12,7 +12,7 @@ namespace Restorant.Application.Contracts
         public Task<IQueryable<T>> GetAllAsync();
         public Task<T> CreateAsync( T entity);
         public Task<T> GetById(int Id);
-        public void Update(T entity);
+        public Task<T> Update(T entity);
         public void DeleteAsync(T entity);
         public Task<int> SaveChangesAsync();
     }

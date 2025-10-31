@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Restorant.DTOs.MenuItemDtos
 {
-    public class GetAllMenuItemDtos
+    public class GetAllOrdersDto
     {
         public string Name { get; set; }
 

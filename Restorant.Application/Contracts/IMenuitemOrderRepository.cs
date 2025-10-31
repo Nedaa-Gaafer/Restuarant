@@ -12,7 +12,9 @@ namespace Restorant.Application.Contracts
     public interface IMenuitemOrderRepository
     {
       
-        public Task<MenuItemOrder> CreateAsync(MenuItemOrder order);
+        public Task CreateAsync(MenuItemOrder order);
+        public Task DeleteAsync(MenuItemOrder order);
+        public Task<IEnumerable<MenuItemOrder>> GetAllOrderItems(int orderId);
         public Task<int> SaveChangesAsync();
     }
 
@@ -23,7 +25,9 @@ namespace Restorant.Application.Contracts
         public Task CreateAsync(CartMenuItem order);
         public Task<IEnumerable<CartMenuItem>> GetAllCartItem();
         public Task Update();
-        public void Delet(CartMenuItem item);
+        public Task<IEnumerable<CartMenuItem>> GetById(int id);
+        public Task Delet(CartMenuItem item);
+        public Task<int> DeletCart(Cart cart);
         public Task<int> SaveChangesAsync();
 
     }
